@@ -1,10 +1,10 @@
 # Twistly
 
-Twistly&#39;s browser extension
+Twistly's browser extension
 
 ## Installation
 
-	$ npm install
+	$ yarn install
 
 ## Usage
 
@@ -68,9 +68,3 @@ if(process.env.NODE_ENV === 'development'){
   console.log('We are in development mode!');
 }
 ```
-
-
-
-
-
-

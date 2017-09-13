@@ -1,17 +1,21 @@
 <!DOCTYPE html>
 <html>
-<head>
-  <meta charset="utf-8" />
-  <title>Options</title>
-  <link rel="stylesheet" type="text/css" href="../styles/options.css">
-</head>
-<body>
+    <head>
+        <meta charset="utf-8" />
+        <title>Twistly Options</title>
+        <style>
+        input {
+            width: 250px;
+        }
+        </style>
+    </head>
+    <body>
+        Please enter your Twistly API key: <input type="text", id="api_key", name="api_key"><br>
+        You can find your API Key the <a href="https://twistly.xyz/account">account page</a>.<br>
 
-  <label>
-    <input type="checkbox" name="examplOption" checked>
-    Example Option
-  </label>
+        <div id="status"></div>
+        <button id="save">Save</button>
 
-  <script src="../scripts/options.js"></script>
-</body>
+        <script src="../scripts/options.js"></script>
+    </body>
 </html>

@@ -1,0 +1,11 @@
+import Frisbee from 'frisbee';
+
+const api = new Frisbee({
+    baseURI: 'https://api.twistly.xyz',
+    headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json'
+    }
+});
+
+export default api;
