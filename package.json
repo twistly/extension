@@ -2,7 +2,7 @@
   "name": "Twistly",
   "private": true,
   "version": "0.0.0",
-  "description": "Twistly&#39;s browser extension",
+  "description": "Twistly's browser extension",
   "scripts": {
     "start": "npm run dev:chrome",
     "build": "npm run build:chrome",
@@ -15,11 +15,23 @@
     "dev:firefox": "gulp --watch --vendor=firefox",
     "dev:opera": "gulp --watch --vendor=opera",
     "dev:edge": "gulp --watch --vendor=edge",
-    "lint": "standard"
+    "lint": "xo"
   },
-  "standard": {
-    "globals": [
-      "chrome"
+  "xo": {
+    "space": 4,
+    "rules": {
+      "space-before-function-paren": [
+        "error",
+        "never"
+      ]
+    },
+    "envs": [
+      "webextensions",
+      "es6",
+      "browser"
+    ],
+    "ignores": [
+      "tasks/lib/**"
     ]
   },
   "devDependencies": {
@@ -50,10 +62,15 @@
     "gulp-util": "3.x.x",
     "gulp-zip": "^4.x.x",
     "require-dir": "0.x.x",
-    "standard": "^10.0.2",
     "vinyl-named": "1.x.x",
     "webpack": "3.x.x",
     "webpack-stream": "3.x.x",
+    "xo": "^0.18.2",
     "yargs": "^8.x.x"
+  },
+  "dependencies": {
+    "delay": "^2.0.0",
+    "frisbee": "^1.5.1",
+    "jquery": "^3.2.1"
   }
 }
