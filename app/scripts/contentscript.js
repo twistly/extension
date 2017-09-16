@@ -1,13 +1,12 @@
 const $ = require('jquery');
 const Frisbee = require('frisbee');
 const api = require('./api');
-const {isTwistlyUp, isTumblrBlog, getTwistlyApiKey} = require('./helpers');
+const {isTwistlyUp, isTumblrBlog, getTwistlyApiKey, isQplusUp} = require('./helpers');
+
+window.$ = $;
 
 if (!isTumblrBlog) {
     throw new Error('Not a Tumblr Blog.');
-}
-if (!isTwistlyUp()) {
-    throw new Error('Twistly is currently down or unreachable, try again later.');
 }
 
 const TUMBLR_API_URL = 'https://api.tumblr.com/v2/';
@@ -17,10 +16,12 @@ const endPoints = [{
     name: 'Tumblr'
 }, {
     name: 'Twistly',
-    release: 'BETA'
+    release: 'BETA',
+    up: false
 }, {
     name: 'Qplus',
-    release: 'BETA'
+    release: 'BETA',
+    up: false
 }];
 const opts = {
     posts: {},
@@ -33,6 +34,8 @@ const opts = {
     postCache: {},
     version: manifest.version
 };
+
+window.Twistly = opts;
 
 const tumblrApi = new Frisbee({
     baseURI: TUMBLR_API_URL,
@@ -55,10 +58,19 @@ const isArchivePosterInstalled = () => {
 
 const setupOpts = () => {
     return new Promise(async resolve => {
-        const {body} = await tumblrApi.get(`blog/${window.location.hostname}/info?api_key=${TUMBLR_API_KEY}`);
+        const tumblrInfo = await tumblrApi.get(`blog/${window.location.hostname}/info?api_key=${TUMBLR_API_KEY}`);
+        const dashboard = await $.get('https://www.tumblr.com/dashboard');
 
-        opts.thisBlog = body.response.blog.name;
+        const parser = new DOMParser();
+        const dashboardElement = parser.parseFromString(dashboard, 'text/html');
+
+        opts.thisBlog = tumblrInfo.body.response.blog.name;
+        opts.formKey = $(dashboardElement).find('#tumblr_form_key').eq(0).attr('content');
         opts.apiKey = await getTwistlyApiKey();
+
+        // Check if endpoints are up
+        endPoints[1] = await isTwistlyUp();
+        endPoints[2] = await isQplusUp();
 
         resolve();
     });
@@ -97,13 +109,16 @@ const setupUi = () => {
     return new Promise(resolve => {
         const navBar = $('#nav_archive');
         const endPointsHtml = endPoints.map(endpoint => {
-            return `
-                <li>
-                    <a href="#" data-endpoint="${endpoint.name.toLowerCase()}">
-                        ${endpoint.name}${endpoint.release ? ' [' + endpoint.release + ']' : ''}
-                    </a>
-                </li>
-            `;
+            if (endpoint.up) {
+                return `
+                    <li>
+                        <a href="#" data-endpoint="${endpoint.name.toLowerCase()}">
+                            ${endpoint.name}${endpoint.release ? ' [' + endpoint.release + ']' : ''}
+                        </a>
+                    </li>
+                `;
+            }
+            return '';
         }).join('');
 
         navBar.children('.title').eq(0).remove();
@@ -167,6 +182,8 @@ const sendPosts = (endPoint, type) => {
 
     if (endPoint === 'qplus') {
         // @TODO
+        // @NOTE: If the user hits qplus we need to workout what blogs they can queue to
+        //        We can get these from http://qplus.io/svc/getblogs
     }
 };
 

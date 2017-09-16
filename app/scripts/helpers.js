@@ -14,8 +14,16 @@ const getTwistlyApiKey = async () => {
     return apiKey;
 };
 
+const isQplusUp = () => {
+    return new Promise(async resolve => {
+        const res = await api.get('/');
+        resolve(res.body.status === 'ok');
+    });
+};
+
 module.exports = {
     isTwistlyUp,
     isTumblrBlog,
-    getTwistlyApiKey
+    getTwistlyApiKey,
+    isQplusUp
 };
