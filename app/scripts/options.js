@@ -3,7 +3,7 @@
 import delay from 'delay';
 import api from './api';
 
-const setStatus = async (msg, ms = 1000) => {
+const setStatus = async (msg, ms = 2500) => {
     const status = document.getElementById('status');
 
     status.textContent = msg;
@@ -18,7 +18,10 @@ const saveOptions = async () => {
 
     if (res.err) {
         // Update status to let user know that the server can't be reached.
-        console.log(res.err);
+        if (res.body.status === 403) {
+            return setStatus('Incorrect API key.');
+        }
+
         return setStatus(`Twistly seems to be having issues right now.`);
     }
 
@@ -31,7 +34,6 @@ const saveOptions = async () => {
 };
 
 const restoreOptions = () => {
-    console.log('restoring options');
     chrome.storage.sync.get({
         apiKey: null
     }, items => {
