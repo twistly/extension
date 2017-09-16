@@ -24,14 +24,14 @@ const saveOptions = async () => {
         return setStatus(`Twistly seems to be having issues right now.`);
     }
 
-    chromeStoragePromise.sync.set({apiKey}, () => {
+    chromeStoragePromise.sync.set({apiKey}).then(() => {
         // Update status to let user know options were saved.
         return setStatus('Settings saved.');
     });
 };
 
 const restoreOptions = async () => {
-    document.getElementById('api_key').value = await chromeStoragePromise.get('apiKey').apiKey;
+    document.getElementById('api_key').value = await chromeStoragePromise.sync.get('apiKey').apiKey;
 };
 
 document.addEventListener('DOMContentLoaded', restoreOptions);

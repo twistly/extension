@@ -13,7 +13,8 @@ const TUMBLR_API_URL = 'https://api.tumblr.com/v2/';
 const TUMBLR_API_KEY = '0NCl15FUivI5DeF4Y5xXduUwcveFtvryC45qtcsLAgKfvJGQLp';
 const manifest = chrome.runtime.getManifest();
 const endPoints = [{
-    name: 'Tumblr'
+    name: 'Tumblr',
+    up: true
 }, {
     name: 'Twistly',
     release: 'BETA',
@@ -69,8 +70,8 @@ const setupOpts = () => {
         opts.apiKey = await getTwistlyApiKey();
 
         // Check if endpoints are up
-        endPoints[1] = await isTwistlyUp();
-        endPoints[2] = await isQplusUp();
+        endPoints[1].up = await isTwistlyUp();
+        endPoints[2].up = await isQplusUp();
 
         resolve();
     });
@@ -109,16 +110,13 @@ const setupUi = () => {
     return new Promise(resolve => {
         const navBar = $('#nav_archive');
         const endPointsHtml = endPoints.map(endpoint => {
-            if (endpoint.up) {
-                return `
-                    <li>
-                        <a href="#" data-endpoint="${endpoint.name.toLowerCase()}">
-                            ${endpoint.name}${endpoint.release ? ' [' + endpoint.release + ']' : ''}
-                        </a>
-                    </li>
-                `;
-            }
-            return '';
+            return `
+                <li ${endpoint.up ? '' : 'style="display: none;"'}>
+                    <a href="#" data-endpoint="${endpoint.name.toLowerCase()}">
+                        ${endpoint.name}${endpoint.release ? ' [' + endpoint.release + ']' : ''}
+                    </a>
+                </li>
+            `;
         }).join('');
 
         navBar.children('.title').eq(0).remove();
