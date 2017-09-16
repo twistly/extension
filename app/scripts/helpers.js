@@ -1,7 +1,12 @@
 import api from './api';
 
 const isTumblrBlog = (document.getElementsByTagName('body')[0].className.indexOf('tumblelog_archive') !== -1);
-const isTwistlyDown = () => api('/healthcheck', ({err}) => Boolean(err));
+const isTwistlyUp = () => {
+    return new Promise(async resolve => {
+        const res = await api.get('/');
+        resolve(res.body.status === 200);
+    });
+};
 
 const getTwistlyApiKey = () => {
     return new Promise(resolve => {
@@ -14,7 +19,7 @@ const getTwistlyApiKey = () => {
 };
 
 export {
-  isTwistlyDown,
+  isTwistlyUp,
   isTumblrBlog,
   getTwistlyApiKey
 };
