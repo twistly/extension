@@ -1,7 +1,6 @@
-// Enable chromereload by uncommenting this line:
-// import 'chromereload/devonly';
-import delay from 'delay';
-import api from './api';
+const chromeStoragePromise = require('chrome-storage-promise');
+const delay = require('delay');
+const api = require('./api');
 
 const setStatus = async (msg, ms = 2500) => {
     const status = document.getElementById('status');
@@ -25,20 +24,14 @@ const saveOptions = async () => {
         return setStatus(`Twistly seems to be having issues right now.`);
     }
 
-    chrome.storage.sync.set({
-        apiKey
-    }, () => {
+    chromeStoragePromise.sync.set({apiKey}, () => {
         // Update status to let user know options were saved.
         return setStatus('Settings saved.');
     });
 };
 
-const restoreOptions = () => {
-    chrome.storage.sync.get({
-        apiKey: null
-    }, items => {
-        document.getElementById('api_key').value = items.apiKey;
-    });
+const restoreOptions = async () => {
+    document.getElementById('api_key').value = await chromeStoragePromise.get('apiKey').apiKey;
 };
 
 document.addEventListener('DOMContentLoaded', restoreOptions);

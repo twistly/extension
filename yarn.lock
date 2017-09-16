@@ -1227,6 +1227,10 @@ chokidar@^1.0.0, chokidar@^1.6.1, chokidar@^1.7.0:
   optionalDependencies:
     fsevents "^1.0.0"
 
+"chrome-storage-promise@https://github.com/twistly/chrome-storage-promise":
+  version "0.2.0"
+  resolved "https://github.com/twistly/chrome-storage-promise#b57262dc358c032cac98ee014dae829ee719ac0c"
+
 chromereload@0.x.x:
   version "0.0.2"
   resolved "https://registry.yarnpkg.com/chromereload/-/chromereload-0.0.2.tgz#3b9732b5d60752fbb5253023319220e59fe283b7"

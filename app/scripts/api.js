@@ -1,4 +1,4 @@
-import Frisbee from 'frisbee';
+const Frisbee = require('frisbee');
 
 const api = new Frisbee({
     baseURI: 'https://api.twistly.xyz',
@@ -8,4 +8,4 @@ const api = new Frisbee({
     }
 });
 
-export default api;
+module.exports = api;

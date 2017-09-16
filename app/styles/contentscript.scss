@@ -1,0 +1,46 @@
+/*Taken from http://www.impressivewebs.com/image-tint-blend-css/*/
+.ui-selected:after {
+    content: "";
+    display: block;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: rgba(0, 255, 255, 0.5);
+    -moz-transition: background .3s linear;
+    -webkit-transition: background .3s linear;
+    -o-transition: background .3s linear;
+    transition: background .3s linear;
+}
+
+.wrapper-dropdown .dropdown {
+    position: absolute;
+    top: 100%;
+    list-style: none;
+    max-height: 0;
+    overflow: hidden;
+    background: white;
+    max-width: 300px;
+    width: 150px;
+    text-align: left;
+    box-shadow: 0 5px 10px 0 rgba(0,0,0,.1);
+
+    li a {
+        display: block;
+        text-decoration: none;
+        color: #333;
+        padding: 10px;
+    }
+}
+
+.wrapper-dropdown.active .dropdown {
+    max-height: 400px;
+}
+.wrapper-dropdown .dropdown li a:hover {
+    background: lightgrey;
+}
+
+span.control_text, #browse_months .month {
+    color: white;
+}

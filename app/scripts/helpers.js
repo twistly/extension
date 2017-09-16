@@ -1,4 +1,5 @@
-import api from './api';
+const chromeStoragePromise = require('chrome-storage-promise');
+const api = require('./api');
 
 const isTumblrBlog = (document.getElementsByTagName('body')[0].className.indexOf('tumblelog_archive') !== -1);
 const isTwistlyUp = () => {
@@ -8,18 +9,13 @@ const isTwistlyUp = () => {
     });
 };
 
-const getTwistlyApiKey = () => {
-    return new Promise(resolve => {
-        chrome.storage.sync.get({
-            apiKey: null
-        }, items => {
-            resolve(items.apiKey);
-        });
-    });
+const getTwistlyApiKey = async () => {
+    const {apiKey} = await chromeStoragePromise.sync.get('apiKey');
+    return apiKey;
 };
 
-export {
-  isTwistlyUp,
-  isTumblrBlog,
-  getTwistlyApiKey
+module.exports = {
+    isTwistlyUp,
+    isTumblrBlog,
+    getTwistlyApiKey
 };
