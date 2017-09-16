@@ -16,7 +16,7 @@ const getTwistlyApiKey = async () => {
 
 const isQplusUp = () => {
     return new Promise(async resolve => {
-        const res = await api.get('/');
+        const res = await api.get('https://qplus.io/svc/check');
         resolve(res.body.status === 'ok');
     });
 };
